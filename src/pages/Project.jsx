@@ -25,6 +25,7 @@ const Project = () => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(true);
   const [isEditingTask, setIsEditingTask] = useState(false);
+  const [projectName , setProjectName] = useState("");
 
   const inputRef = useRef(null);
 
@@ -32,6 +33,7 @@ const Project = () => {
 
   useEffect(() => {
     const tasks = getProjectTasks(id).sort((a, b) => a.completed - b.completed);
+    setProjectName(getData("projects").find((p) => p.id == id).title);
     setTasks(tasks);
     setIsLoading(false);
   }, []);
@@ -129,8 +131,11 @@ const Project = () => {
         <Row className=" vh-100 mx-0 justify-content-center align-items-center py-4 ">
           <div className="w-100 w-md-50 justify-content-center align-items-center">
             {/* Begin Progress Bar */}
-            <Col className=" bg-white shadow-sm rounded  justify-content-center py-3 d-flex mb-5">
-              <div className="d-flex   justify-content-center align-items-center">
+
+            <Col className=" bg-white shadow-sm rounded d-flex flex-column text-center align-items-center justify-content-center py-3 px-3 d-flex mb-5">
+            <p className=" fs-5 fw-bold">{projectName}</p>
+              <div className="d-flex  justify-content-center align-items-center">
+                
                 <div className="  me-3 text-center">
               
                   <p className="m-0  ">Tasks: <span className="badge bg-primary align-text-bottom fs-6">{getTotalTasks()}</span></p>
