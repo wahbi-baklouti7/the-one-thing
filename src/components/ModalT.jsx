@@ -70,14 +70,19 @@ const ModalT = ({ tasks, setTasks, projectId }) => {
     let isFinish = false;
 
 
-    if(counter == tasksNotCompleted.length - 1){
-      isFinish = true;
+    if (counter == tasksNotCompleted.length - 1) {
+      updatePriority(taskId);
+
+      if(secondIndex == 2){
+        isFinish = true;
+      }
+      
     }
     if (tasksNotCompleted.length == 2) {
       updatePriority(taskId);
       isFinish = true;
     } else if (
-      counter < tasksNotCompleted.length - 1
+      counter <= tasksNotCompleted.length - 1
     ) {
       if (secondIndex < tasksNotCompleted.length - 1) {
       

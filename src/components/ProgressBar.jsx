@@ -19,7 +19,6 @@ const ProgressBar = ({
 
   const calculatePercent = () => {
 
-    console.log("calculatePercent", completedTask, totalTask);
     if (totalTask === 0) {
       setPercent(0);
     }
