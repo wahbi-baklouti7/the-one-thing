@@ -1,0 +1,111 @@
+
+*{
+    font-family: 'Roboto', sans-serif !important;
+    /* font-family: 'Poppins', sans-serif !important; */
+}
+.home-bg-color{
+    background-color:  #F4F8FE;
+}
+.bg-cards-container{
+    background-color: #e8e8e8;
+}
+.bg-projects{
+    background-color:  #F4F8FE;
+
+}
+
+.bg-project-card{
+  background-color: #F3F3F3 !important;
+}
+
+
+
+
+.ant-card-head{
+    border-bottom: 'solid 1px #713D7B' !important;
+}
+
+
+.box-button{
+    background-color: red;
+    border: solid 2px green;
+    width: 40%;
+
+}
+
+.prioritize-button:hover{
+  border: solid 1px  #FFC107 !important;
+  opacity: 0.7 !important;
+}
+
+.w-40{
+    width: 40%;
+}
+
+.checked{
+    text-decoration: line-through !important;
+    color: gray !important;
+  }
+
+
+
+@media (max-width: 575.98px) { 
+    .card-custom{
+        width: 90% !important;
+    }
+    .input-custom{
+        width: 80% !important;
+    }
+    
+      
+    
+      
+    
+      
+    
+ }
+@media (min-width: 576px) { 
+
+    .card-custom{
+        width: 50% !important;
+        margin: 0 auto;
+        margin-bottom: 15px; 
+    }
+    
+      
+   
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+    .w-md-50{
+        width: 50% !important;
+    }
+
+    .card-custom{
+        width: 50% !important;
+    }
+    
+      
+      
+      
+      
+      
+      
+    
+ }
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+
+ }
+
+/* // X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+
+ }
+
+/* // XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) { 
+
+ }
