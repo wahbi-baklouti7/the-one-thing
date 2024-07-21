@@ -44,7 +44,7 @@ const ProjectCard = ({  project, handleDeleteProjct, handleEditProject }) => {
       <Row className="w-100 bg-warningr justify-content-between">
         {/* Begin Project Details */}
         <Col md={8} xs={8} className=" align-self-end ">
-          <h4 className="mb-4 text-capitalize text-break ">{project.title}</h4>
+          <h4 className="mb-4  text-break ">{project.title}</h4>
           <p className="m-0">
             Tasks: {getCompletedTasks()} / {getTotalTasks()} 
           </p>
