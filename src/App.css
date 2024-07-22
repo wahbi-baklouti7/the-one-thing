@@ -57,11 +57,8 @@
         width: 80% !important;
     }
     
-      
-    
-      
-    
-      
+
+
     
  }
 @media (min-width: 576px) { 
@@ -72,7 +69,7 @@
         margin-bottom: 15px; 
     }
     
-      
+    
    
 }
 
@@ -84,6 +81,10 @@
 
     .card-custom{
         width: 50% !important;
+    }
+
+    .project-card{
+        width: 390px !important;        
     }
     
       

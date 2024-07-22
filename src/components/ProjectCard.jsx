@@ -33,7 +33,7 @@ const ProjectCard = ({  project, handleDeleteProjct, handleEditProject }) => {
         </div>
       }
       size="small"
-      className=" bg-project-card  "
+      className=" bg-project-card project-card"
       onClick={() => navigate(`/project/${project.id}`)}
       key={project.id}
       style={{
