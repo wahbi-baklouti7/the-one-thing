@@ -1,28 +1,23 @@
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
-import { Button, Card } from "antd";
-import { Checkbox } from "antd";
+import { Button, Card,Checkbox } from "antd";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {useRef  } from "react";
+import { useParams } from "react-router-dom";
+import { useTasks } from "../context/TaskContext";
 
 const Task = ({
   task,
-  changeTaskStatus,
-  handleDeleteTask,
-  handleEditTask2,
-  orderNewTasks,
   index,
 }) => {
-  const inputRef = useRef(null);
-
+  const { id } = useParams()
+  const {changeTaskStatus,handleDelete,orderTasks,handleEditTask} = useTasks()
   const checkedTask = task.completed ? "checked" : "";
 
 
 
   const onChange = (e) => {
-    changeTaskStatus(task.id, e.target.checked);
-
-    orderNewTasks();
+    changeTaskStatus(task.id, e.target.checked, id);
+    orderTasks();
   };
 
   
@@ -43,7 +38,7 @@ const Task = ({
           <Checkbox
             checked={task.completed}
             onChange={onChange}
-            disabled={(index != 0 && !task.completed) ? true : false}
+            disabled={index != 0 && !task.completed}
           >
           </Checkbox>
           <p className= {`${checkedTask}  m-0 ms-2 text-truncate`}>{task.title}</p>
@@ -52,14 +47,14 @@ const Task = ({
           <div className=" d-flex justify-content-end">
             <Button
               icon={<EditFilled color="danger" className="fs-5 " />}
-              onClick={() => handleEditTask2(task.title, task.id)}
+              onClick={() => handleEditTask(task.title, task.id)}
               type="text"
               shape="circle"
               style={{ border: "none" }}
             ></Button>
             <Button
               icon={<DeleteFilled className="fs-5 " />}
-              onClick={() => handleDeleteTask(task.id)}
+              onClick={() => handleDelete(task.id,id)}
               type="text"
               shape="circle"
               danger

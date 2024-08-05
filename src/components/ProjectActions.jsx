@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Button, Popconfirm, Popover } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
+import { useProject } from "../context/ProjectContext";
 
-const ProjectActions = ({ id, handleDeleteProjct, handleEditProject }) => {
+const ProjectActions = ({ id }) => {
+  const { handleDeleteProject, handleEditProject } = useProject();
+
   const [open, setOpen] = useState(false);
   const handleOpenChange = (newOpen) => {
     setOpen(newOpen);
@@ -22,7 +25,7 @@ const ProjectActions = ({ id, handleDeleteProjct, handleEditProject }) => {
             placement="top"
             okText="Yes"
             cancelText="No"
-            onConfirm={() => handleDeleteProjct(id)}
+            onConfirm={() => handleDeleteProject(id)}
           >
             {" "}
             <Button className="m-0 p-0" type="transparent">
