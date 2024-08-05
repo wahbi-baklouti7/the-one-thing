@@ -1,121 +1,48 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ProgressBar from "../components/ProgressBar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Button, Spin } from "antd";
+import { Button, Spin, Form, Input } from "antd";
 import Task from "../components/Task";
 
-import { Form, Input } from "antd";
 import { useParams } from "react-router-dom";
-import {
-  getData,
-  storeData,
-  getProjectTasks,
-  setProjectTasksDB,
-} from "../lib/localDB";
+import { getProjectDB } from "../lib/localDB";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import EmptyState from "../components/EmptyState";
 import ModalT from "../components/ModalT";
-import create from "@ant-design/icons/lib/components/IconFont";
+import { useTasks } from "../context/TaskContext";
 
 const Project = () => {
   const { id } = useParams();
-  const [tasks, setTasks] = useState([]);
-  const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(true);
-  const [isEditingTask, setIsEditingTask] = useState(false);
-  const [projectName , setProjectName] = useState("");
+  const [projectName, setProjectName] = useState("");
 
-  const inputRef = useRef(null);
-
-  
+  const {
+    getTasks,
+    addTask,
+    isEditingTask,
+    inputRef,
+    tasks,
+    updateTask,
+    setTasks,
+    getCompletedTasks,
+    getTotalTasks,
+    form,
+  } = useTasks();
 
   useEffect(() => {
-    const tasks = getProjectTasks(id).sort((a, b) => a.completed - b.completed);
-    setProjectName(getData("projects").find((p) => p.id == id).title);
-    setTasks(tasks);
+    getTasks(id);
+    setProjectName(getProjectDB(id).title);
     setIsLoading(false);
   }, []);
 
   const onFinish = (values) => {
     if (isEditingTask) {
-
-      const { projectItem, taskId } = values;
-      const newTask = tasks.map((task) => {
-        if (task.id == taskId) {
-          return { ...task, title: projectItem };
-        }
-        return task;
-      });
-      setTasks((prevState) => newTask);
-      setProjectTasksDB(id, newTask);
-      form.resetFields();
-      setIsEditingTask(false);
+      updateTask(id, values.projectItem, values.taskId);
     } else {
-      const task = {
-        id: new Date().getTime(),
-        title: values.projectItem,
-        completed: false,
-        priority: 0,
-      };
-      const project = getData("projects");
-      const getProject = project.find((p) => p.id == id);
-      getProject.tasks.unshift(task);
-      storeData("projects", project);
-      setTasks((prevState) => [task, ...prevState]);
-
-      form.setFieldsValue({
-        projectItem: "",
-      });
+      addTask(id, values.projectItem);
     }
-  };
-
-  const handleDelete = (taskId) => {
-    const newTasks = tasks.filter((task) => task.id !== taskId);
-    setTasks(newTasks);
-    setProjectTasksDB(id, newTasks);
-  };
-  const changeTaskStatus = (taskId, status) => {
-    const newTasks = tasks.map((task) => {
-      if (task.id == taskId) {
-        return { ...task, completed: status };
-      }
-      return task;
-    });
-    setTasks(newTasks);
-    const project = getData("projects");
-    const getProject = project.find((p) => p.id == id);
-    getProject.tasks = newTasks;
-    storeData("projects", project);
-  };
-
-  const getCompletedTasks = () => {
-    return tasks.filter((task) => task.completed).length;
-  };
-  const getTotalTasks = () => {
-    return tasks.length;
-  };
-
-  const handleEditTask = (values, taskId) => {
-    form.setFieldsValue({
-      projectItem: values,
-      taskId: taskId,
-    });
-
-    inputRef.current.focus();
-
-    setIsEditingTask(true);
-  };
-
-
-
-
-  const orderNewTasks = () => {
-    setTasks((prevTasks) =>
-      prevTasks.sort((a, b) => a.completed - b.completed)
-    );
-  
   };
 
   if (isLoading) {
@@ -133,12 +60,15 @@ const Project = () => {
             {/* Begin Progress Bar */}
 
             <Col className=" bg-white shadow-sm rounded d-flex flex-column text-center align-items-center justify-content-center py-3 px-3 d-flex mb-5">
-            <p className=" fs-5 fw-bold">{projectName}</p>
+              <p className=" fs-5 fw-bold">{projectName}</p>
               <div className="d-flex  justify-content-center align-items-center">
-                
                 <div className="  me-3 text-center">
-              
-                  <p className="m-0  ">Tasks: <span className="badge bg-primary align-text-bottom fs-6">{getTotalTasks()}</span></p>
+                  <p className="m-0  ">
+                    Tasks:{" "}
+                    <span className="badge bg-primary align-text-bottom fs-6">
+                      {getTotalTasks()}
+                    </span>
+                  </p>
                   <p className="text-muted ">
                     {getCompletedTasks()}/{getTotalTasks()} tasks completed
                   </p>
@@ -217,11 +147,10 @@ const Project = () => {
                   </Form>
                 </div>
               </Row>
-              <div className="text-centerr my-2">
+              <div className=" my-2">
                 <ModalT tasks={tasks} setTasks={setTasks} projectId={id} />
               </div>
-              <div className="bg-successs d-flex flex-column justify-content-center align-items-center  ">
-
+              <div className=" d-flex flex-column justify-content-center align-items-center  ">
                 {tasks.length == 0 ? (
                   <EmptyState
                     firstMessage="Add a task or an item"
@@ -229,16 +158,7 @@ const Project = () => {
                   />
                 ) : (
                   tasks.map((task, i) => (
-                    <Task
-                      index={i}
-                      key={task.id}
-                      task={task}
-                      tasks={tasks}
-                      changeTaskStatus={changeTaskStatus}
-                      handleDeleteTask={handleDelete}
-                      handleEditTask2={handleEditTask}
-                      orderNewTasks={orderNewTasks}
-                    />
+                    <Task index={i} key={task.id} task={task} />
                   ))
                 )}
               </div>

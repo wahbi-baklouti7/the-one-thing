@@ -2,34 +2,20 @@ import { Card } from "antd";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ProgressBar from "../components/ProgressBar";
-
-
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ProjectActions from "./ProjectActions";
-import { CheckSquareFilled, CheckSquareOutlined, ClockCircleFilled, ClockCircleOutlined } from "@ant-design/icons";
+import { useTasks } from "../context/TaskContext";
 
-const ProjectCard = ({  project, handleDeleteProjct, handleEditProject }) => {
+const ProjectCard = ({ project }) => {
   const navigate = useNavigate();
-  const getCompletedTasks = () => {
-    return project.tasks.filter((task) => task.completed).length;
-  };
-  const getTotalTasks = () => {
-    return project.tasks.length;
-  };
 
+  const { getCompletedTasks, getTotalTasks } = useTasks();
   return (
     <Card
       hoverable={true}
       extra={
         <div onClick={(e) => e.stopPropagation()}>
-          <ProjectActions
-            id={project.id}
-            project={project}
-            getCompletedTasks={getCompletedTasks}
-            getTotalTasks={getTotalTasks}
-            handleDeleteProjct={handleDeleteProjct}
-            handleEditProject={handleEditProject}
-          />
+          <ProjectActions id={project.id} project={project} />
         </div>
       }
       size="small"
@@ -41,15 +27,14 @@ const ProjectCard = ({  project, handleDeleteProjct, handleEditProject }) => {
         marginTop: 16,
       }}
     >
-      <Row className="w-100 bg-warningr justify-content-between">
+      <Row className="w-100  justify-content-between">
         {/* Begin Project Details */}
         <Col md={8} xs={8} className=" align-self-end ">
           <h4 className="mb-4  text-break ">{project.title}</h4>
           <p className="m-0">
-            Tasks: {getCompletedTasks()} / {getTotalTasks()} 
+            Tasks: {getCompletedTasks()} / {getTotalTasks()}
           </p>
-          <p>Created at : {project.createdAt} </p> 
-
+          <p>Created at : {project.createdAt} </p>
         </Col>
         <Col md={3} xs={3} className="p-0 m-0  justify-content-end">
           <ProgressBar
@@ -58,8 +43,6 @@ const ProjectCard = ({  project, handleDeleteProjct, handleEditProject }) => {
             type="circle"
             size={90}
           />
-
-
         </Col>
         {/* End Project Progress */}
       </Row>

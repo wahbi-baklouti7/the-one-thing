@@ -1,21 +1,11 @@
 
 
-const storeData = (key, value) => {
-    localStorage.setItem(key, JSON.stringify(value));
-};
-
-
-const getData = (key) => {
-    return JSON.parse(localStorage.getItem(key));
-};
-
-
-const getProjects = ()=>{
+const getProjectsDB = ()=>{
     return JSON.parse(localStorage.getItem("projects"));
 }
 const getProjectDB =(projectId)=>{
 
-    const projects = getProjects();
+    const projects = getProjectsDB();
     return projects.find((project) => project.id == projectId);
 }
 
@@ -29,7 +19,7 @@ const getProjectTasks=(ProjectId)=>{
 
 // const setProject
 const setProjectTasksDB = (ProjectId, newTasks) => {
-    const projects = getProjects();
+    const projects = getProjectsDB();
 
     const newProjects = projects.map((project) => {
         if (project.id == ProjectId) {
@@ -46,4 +36,5 @@ const setProjectsDB = (newProjects) => {
     localStorage.setItem("projects", JSON.stringify(newProjects));
 }
 
-export { storeData, getData , getProjects, getProjectDB, getProjectTasks, setProjectTasksDB, setProjectsDB}
+// export { storeData, getData , getProjectsDB, getProjectDB, getProjectTasks, setProjectTasksDB, setProjectsDB}
+export {  getProjectsDB, getProjectDB, getProjectTasks, setProjectTasksDB, setProjectsDB}
