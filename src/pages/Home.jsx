@@ -112,7 +112,7 @@ const Home = () => {
             </div>
 
             <p className="align-self-start badge bg-success fs-6 text-white ">
-              Total Projects/Goals: {projects.length}
+              Total Projects/Goals: {projects.length ?? 0}
             </p>
             {projects.length != 0 ? (
               projects.map((project) => (
